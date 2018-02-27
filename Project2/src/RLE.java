@@ -119,7 +119,6 @@ public class RLE
 
 
 
-    /*
     public static char[] decodeRLE(String rleString) //option 3
     {
         /**
@@ -132,7 +131,24 @@ public class RLE
          * decodeRLE(“2A5BC”) => {‘A’, ‘A’, ‘B’, ‘B’, ‘B’, ‘B’, ‘B’, ‘C’}
          * decodeRLE(“3L3o3L”) => {‘L’, ‘L’, ‘L’, ‘o’, ‘o’, ‘o’, ‘L’, ‘L’, ‘L’}
          */
-    //}
+
+        //find length of decodedArray first and then initialize the array as a new array of that length
+        int num;
+        int previousNum = 0;
+        int decimalPlace = 1;
+        for (int i = 0; i < rleString.length(); i++) {
+            if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
+                //this is a letter. repeat this value X times. X is the preceding number
+                decimalPlace = 1;
+                previousNum = 0;
+            } else {
+                num = rleString.charAt(i) - 48;
+                num = num*((int) Math.pow(10,decimalPlace-1)) + previousNum;
+                decimalPlace++;
+                previousNum = num;
+            }
+        }
+    }
 
 
 //consider calling methods within other methods (other than main)
