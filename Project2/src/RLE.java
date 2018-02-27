@@ -7,7 +7,7 @@ public class RLE
         Scanner scan = new Scanner(System.in);
         //think about what is returned from each method
 
-        //cycle:
+        // Cycle:
         // 1. Menu
         // 2. User picks option
         // 3. Either enter message. View Decoded Message. Or View Encoded Message.
@@ -41,8 +41,6 @@ public class RLE
                 //default case not needed? user needs to input correct #?
             }
         }
-
-
     }
 
     public static void menu()
@@ -66,7 +64,6 @@ public class RLE
          }
          return digits;
     }
-
 
 
 
@@ -98,25 +95,27 @@ public class RLE
 
 
     //Note: This method is intended to pre-determine the size of an array as an array is of fixed length.
-/*
+
     public static int findEncodeLength(String inputString)
     {
-         /**
-        * This is used to pre-determine the length of the char array that will be needed to store just the
-         * alphabetic character (not their character count). Note that the consecutive repeated character
-         * will be counted only once for the length of the char array.
-        * Parameters:
-        * inputString - a string
-        * Returns:
-        * 0 when the input string is null, else the number of unique characters in the string.
-        * Examples:
-        * findEncodeLength(“aaaBBXXXAA”) => 4
-        * findEncodeLength(“aaaaaaaaaaaaaaa”) => 1
-        * findEncodeLength(“abc”) => 3
-        * findEncodeLength("aaabbbccbbbaaa") => 5 ("aaa": 1, "bbb”: 1, "cc": 1, "bb": 1, "aaa": 1)
-        */
+        if (inputString == null) {      //return 0 when string is null
+            return 0;
+        }
+        else {
+            int encodeLength = 1;
+            char letter;
+            char previousLetter = inputString.charAt(0);
 
-   // }
+            for (int i = 0; i < inputString.length(); i++) { //go through inputString character by character
+                letter = inputString.charAt(i);
+                if (previousLetter != letter) {     //if the previous character is not equal to the current character
+                    encodeLength++;                 //increment encodeLength
+                }
+                previousLetter = letter;
+            }
+            return encodeLength;
+        }
+    }
 
 
 
@@ -159,6 +158,9 @@ public class RLE
          * [‘4’, ‘!’]]
          * encodeRLE(“AAAAAAAAAAAAAAAAAAAAAAA”) => [‘2’, ’3’, ’A’]
          */
+
+        //This is like using toCharArray to create line of the multi-dimensionally array
+
     //}
 
 }
