@@ -2,6 +2,15 @@ import java.util.Scanner;
 
 public class RLE
 {
+
+    //To Do:
+    //- Implement methods in main
+    //- Push to github again
+    //- Try test cases
+    //- If test cases don't pass, use boolean variables like (stringInputted = true) in running loop
+    //  to account for incorrect option inputs
+    //SHOULD NUM OF DIGITS METHOD INCLUDE 0 HAS A NON-NEGATIVE INTEGER??? DOUBLE CHECK
+
     public static void main(String args[])
     {
         Scanner scan = new Scanner(System.in);
@@ -13,6 +22,8 @@ public class RLE
         // 3. Either enter message. View Decoded Message. Or View Encoded Message.
         // Repeat
 
+        String inputString = "initialized yo";
+
         boolean running = true;
         while (running) {
             menu();
@@ -20,19 +31,18 @@ public class RLE
             switch (option) {
                 case 1:   //get inputString
                     System.out.print("\nEnter message: ");
-                    String inputString = scan.next();
+                    inputString = scan.next();
                     break;
                 case 2:   //encode string and view
                     System.out.print("\nThe encoded data is: ");
-
-
+                    char [][] encoded = encodeRLE(inputString);
+                    printArray(encoded);
+                    System.out.println();
                     break;
-                case 3:   //decode string and view OR just view inputString?
-                          //do I have to use the decoding method as instructed
-                          //even if it's not necessary?
+                case 3:  //decode string and view. Could I just show the original string?
                     System.out.print("\nThe decoded data is: ");
-
-
+                    System.out.print(inputString); //REMOVE
+                    System.out.println();
                     break;
                 case 4:   //exit program
                     running = false;
@@ -40,6 +50,8 @@ public class RLE
                     return;
                 //default case not needed? user needs to input correct #?
             }
+            System.out.println();
+
         }
     }
 
@@ -53,7 +65,14 @@ public class RLE
         System.out.print("Option: ");
     }
 
+    public static void printArray(char[][] array){
 
+        for (int row = 0; row < array.length; row++) {
+            for (int col = 0; col < array[row].length; col++) {
+                System.out.print(array[row][col]);
+            }
+        }
+    }
 
     public static int numOfDigits(int num)
     {
