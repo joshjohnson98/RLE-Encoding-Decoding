@@ -163,32 +163,49 @@ public class RLE
     }
 
 
-//consider calling methods within other methods (other than main)
-
-    /*
-    public static char[][] encodeRLE(String inputString) //option 2
+    public static char[][] encodeRLE(String inputString)
     {
-        /**
-         * Encodes input string in RLE format
-         * Parameters:
-         * inputString - an alphabetical(includes lowercase and uppercase) string
-         * Returns:
-         * a multi-dimensional char array in the following form: first elements of an array will be digits
-         * (char count if greater than 1) as a character followed by corresponding character.
-         * Examples:
-         * encodeRLE(“”HELLLOWORRRRRLD!!!!””) =>[[‘H’]
-         *. [‘E’]
-         * [‘3’, ‘L’]
-         * [‘O’]
-         * [‘5’, ‘R’]
-         * [‘L’]
-         * [‘D’]
-         * [‘4’, ‘!’]]
-         * encodeRLE(“AAAAAAAAAAAAAAAAAAAAAAA”) => [‘2’, ’3’, ’A’]
-         */
+        int length = findEncodeLength(inputString);
+        //Create STAGGERED array because # of cols in each row might not be consistent
+        char [][] encoded = new char [length][];
+        int arrayRow = 0;
+        int charCount = 1;
 
-        //This is like using toCharArray to create line of the multi-dimensionally array
+        //Technique:
+        //Go through inputString char by char
+        //Keep a running tally of the charCount
+        //If you hit a new character (nextChar ~= currentChar),
+        //initialize a row using toCharArray w/ inputs "charCount" and "currentChar"
+        //Reset variables
 
-    //}
+        char currentChar = inputString.charAt(0);
+        char nextChar = inputString.charAt(0);
+        boolean endOfString = false;
+
+        for (int i = 0; i < inputString.length(); i++) {
+            if (i >= inputString.length()-1){
+                endOfString = true;
+            }
+            else {
+                nextChar = inputString.charAt(i + 1);
+            }
+            if ((nextChar != currentChar)||endOfString) { //next char doesn't match current char or you've reached the end of the sting
+                if (charCount>1) {
+                    encoded[arrayRow] = toCharArray(charCount,currentChar);
+                }
+                else{
+                    encoded[arrayRow] = new char[1];
+                    encoded[arrayRow][0] = currentChar;
+                }
+                arrayRow++;  //move to the next row of the multi-dimensional array and repeat process
+                charCount = 1;
+                currentChar = nextChar;
+            } else {
+                charCount++;
+            }
+        }
+        return encoded;
+    }
+
 
 }
