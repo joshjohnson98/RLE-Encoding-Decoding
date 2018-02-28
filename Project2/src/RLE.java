@@ -132,22 +132,47 @@ public class RLE
          * decodeRLE(“3L3o3L”) => {‘L’, ‘L’, ‘L’, ‘o’, ‘o’, ‘o’, ‘L’, ‘L’, ‘L’}
          */
 
+        //ADD COMMENTS
+
+
         //find length of decodedArray first and then initialize the array as a new array of that length
-        int num;
+        int num = 1;
         int previousNum = 0;
-        int decimalPlace = 1;
+
+        //find length of array first
+        int length = 0;
+
         for (int i = 0; i < rleString.length(); i++) {
             if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
-                //this is a letter. repeat this value X times. X is the preceding number
-                decimalPlace = 1;
+                length += num;
                 previousNum = 0;
+                num = 1;
             } else {
                 num = rleString.charAt(i) - 48;
-                num = num*((int) Math.pow(10,decimalPlace-1)) + previousNum;
-                decimalPlace++;
+                num = num + previousNum*10;
                 previousNum = num;
             }
         }
+
+        //now you have the length of the array that you are going to build. initialize it
+
+        /*
+        num = 1;
+        previousNum = 0;
+        for (int i = 0; i < rleString.length(); i++) {
+            if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
+                //this is a letter. repeat this value X times. X is the preceding number
+                previousNum = 0;
+                num = 1;
+            } else {
+                num = rleString.charAt(i) - 48;
+                num = num + previousNum*10;
+                previousNum = num;
+            }
+        }
+        */
+
+        //return your char array
     }
 
 
