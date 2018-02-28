@@ -119,49 +119,38 @@ public class RLE
 
 
 
-    public static char[] decodeRLE(String rleString) //option 3
+    public static char[] decodeRLE(String rleString)
     {
-        /**
-         * Decodes the RLE string and returns a character array of a decoded string.
-         * Parameters:
-         * rleString - a string encoded in RLE format
-         * Returns:
-         * A character array representing decoded string.
-         * Examples:
-         * decodeRLE(“2A5BC”) => {‘A’, ‘A’, ‘B’, ‘B’, ‘B’, ‘B’, ‘B’, ‘C’}
-         * decodeRLE(“3L3o3L”) => {‘L’, ‘L’, ‘L’, ‘o’, ‘o’, ‘o’, ‘L’, ‘L’, ‘L’}
-         */
-
-        //ADD COMMENTS
-
-
-        //find length of decodedArray first and then initialize the array as a new array of that length
-        int num = 1;
-        int previousNum = 0;
-
-        //find length of array first
+        int num = 1;            //if a letter shows up without numbers before it, it is counted once
+        int previousNum = 0;    //used to handle decimal place for numbers that are more than one digit
+        //Find length of decoded array first
         int length = 0;
 
         for (int i = 0; i < rleString.length(); i++) {
             if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
-                length += num;
-                previousNum = 0;
+                //this is a letter....should I account for non-letters, non-numbers?
+                //increase range of values to include punctuation and spaces if necessary
+                length += num;      //when you hit a letter, at the number before the letter
+                previousNum = 0;    //reset num values
                 num = 1;
             } else {
                 num = rleString.charAt(i) - 48;
-                num = num + previousNum*10;
+                num = num + previousNum*10;    //handles decimal place (for numbers that are more than one digit)
                 previousNum = num;
             }
         }
 
-        //now you have the length of the array that you are going to build. initialize it
-
-        /*
+        char [] decoded = new char[length]; //Initialize char array with length found previously
+        int position = 0;
         num = 1;
         previousNum = 0;
         for (int i = 0; i < rleString.length(); i++) {
             if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
-                //this is a letter. repeat this value X times. X is the preceding number
+                //this is a letter. repeat this value "num" times
+                for (int x=0; x < num; x++){
+                    decoded[position] = rleString.charAt(i);
+                    position++;
+                }
                 previousNum = 0;
                 num = 1;
             } else {
@@ -170,9 +159,7 @@ public class RLE
                 previousNum = num;
             }
         }
-        */
-
-        //return your char array
+        return decoded;
     }
 
 
