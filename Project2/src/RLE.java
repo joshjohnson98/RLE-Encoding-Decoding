@@ -116,8 +116,8 @@ public class RLE
 
     public static int numOfDigits(int num)
     {
-         int digits = 0;
-         while (num>=1){
+         int digits = 1;
+         while (num>=10){
              num/=10;     //divide by 10 each time for next digit
              digits++;
          }
@@ -176,6 +176,9 @@ public class RLE
         }
     }
 
+
+
+
     public static int findDecodeLength(String rleString){
         int num = 1;            //if a letter shows up without numbers before it, it is counted once
         int previousNum = 0;    //used to handle decimal place for numbers that are more than one digit
@@ -183,9 +186,8 @@ public class RLE
         int length = 0;
 
         for (int i = 0; i < rleString.length(); i++) {
-            if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
-                //this is a letter....should I account for non-letters, non-numbers?
-                //increase range of values to include punctuation and spaces if necessary
+            if ((rleString.charAt(i) >= 58 && rleString.charAt(i) <= 126)||(rleString.charAt(i) >= 32 && rleString.charAt(i) <= 47)) {
+                //^not a number
                 length += num;      //when you hit a letter, at the number before the letter
                 previousNum = 0;    //reset num values
                 num = 1;
@@ -209,8 +211,8 @@ public class RLE
         int num = 1;
         int previousNum = 0;
         for (int i = 0; i < rleString.length(); i++) {
-            if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
-                //this is a letter. repeat this value "num" times
+            if ((rleString.charAt(i) >= 58 && rleString.charAt(i) <= 126)||(rleString.charAt(i) >= 32 && rleString.charAt(i) <= 47)) {
+                //^not a number. repeat this value "num" times
                 for (int x=0; x < num; x++){
                     decoded[position] = rleString.charAt(i);
                     position++;
