@@ -1,15 +1,8 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RLE
 {
-
-    //To Do:
-    //- Push to github again
-    //- Try test cases
-    //- If test cases don't pass, use boolean variables like (stringInputted = true) in running loop
-    //  to account for incorrect option inputs
-    //SHOULD NUM OF DIGITS METHOD INCLUDE 0 HAS A NON-NEGATIVE INTEGER??? DOUBLE CHECK
-
     public static void main(String args[])
     {
         Scanner scan = new Scanner(System.in);
@@ -23,33 +16,53 @@ public class RLE
 
         boolean running = true;
         while (running) {
-            menu();
-            int option = scan.nextInt();
-            switch (option) {
-                case 1:   //get inputString
-                    System.out.print("\nEnter message: ");
-                    inputString = scan.next();
-                    break;
-                case 2:   //encode string and view
-                    System.out.print("\nThe encoded data is: ");
-                    char [][] encoded = encodeRLE(inputString);
-                    char [] encodedOneDim = toOneDim(encoded);
-                    rleString = new String(encodedOneDim);
-                    printArray(encoded);
-                    System.out.println();
-                    break;
-                case 3:  //decode string and view. Could I just show the original string?
-                    System.out.print("\nThe decoded data is: ");
-                    char [] decoded = decodeRLE(rleString);
-                    printOneDimArray(decoded);
-                    System.out.println();
-                    break;
-                case 4:   //exit program
-                    running = false;
-                    System.out.print("\nProgram terminated");
-                    return;
-                //default case not needed? user needs to input correct #?
+
+            boolean error;
+
+            //Check for valid input
+            int option = 4;
+            do {
+                menu();
+                error = false;
+                try {
+                    option = scan.nextInt();
+                } catch (InputMismatchException somethingWentWrong) {
+                    System.out.println("\nError! Invalid input. Please enter an integer from 1-4\n");
+                    error = true;
+                    scan.next();
+                }
+            }while (error);
+
+            if (option>=1 && option<=4) {
+                switch (option) {
+                    case 1:   //get inputString
+                        System.out.print("\nEnter message: ");
+                        inputString = scan.next();
+                        break;
+                    case 2:   //encode string and view
+                        System.out.print("\nThe encoded data is: ");
+                        char[][] encoded = encodeRlE(inputString);
+                        char[] encodedOneDim = toOneDim(encoded);
+                        rleString = new String(encodedOneDim);
+                        printArray(encoded);
+                        System.out.println();
+                        break;
+                    case 3:  //decode string and view. Could I just show the original string?
+                        System.out.print("\nThe decoded data is: ");
+                        char[] decoded = decodeRLE(rleString);
+                        printOneDimArray(decoded);
+                        System.out.println();
+                        break;
+                    case 4:   //exit program
+                        running = false;
+                        System.out.print("\nProgram terminated");
+                        return;
+                }
             }
+            else{
+                System.out.println("Error! Invalid input. Please enter an integer from 1-4");
+            }
+
             System.out.println();
 
         }
@@ -163,10 +176,7 @@ public class RLE
         }
     }
 
-
-
-    public static char[] decodeRLE(String rleString)
-    {
+    public static int findDecodeLength(String rleString){
         int num = 1;            //if a letter shows up without numbers before it, it is counted once
         int previousNum = 0;    //used to handle decimal place for numbers that are more than one digit
         //Find length of decoded array first
@@ -185,11 +195,19 @@ public class RLE
                 previousNum = num;
             }
         }
+        return length;
+    }
 
+
+
+    public static char[] decodeRLE(String rleString)
+    {
+
+        int length = findDecodeLength(rleString);
         char [] decoded = new char[length]; //Initialize char array with length found previously
         int position = 0;
-        num = 1;
-        previousNum = 0;
+        int num = 1;
+        int previousNum = 0;
         for (int i = 0; i < rleString.length(); i++) {
             if ((rleString.charAt(i) >= 65 && rleString.charAt(i) <= 90) || (rleString.charAt(i) >= 97 && rleString.charAt(i) <= 122)) {
                 //this is a letter. repeat this value "num" times
@@ -209,7 +227,7 @@ public class RLE
     }
 
 
-    public static char[][] encodeRLE(String inputString)
+    public static char[][] encodeRlE(String inputString)
     {
         int length = findEncodeLength(inputString);
         //Create STAGGERED array because # of cols in each row might not be consistent
