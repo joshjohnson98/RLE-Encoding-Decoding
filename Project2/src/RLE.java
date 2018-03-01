@@ -4,7 +4,6 @@ public class RLE
 {
 
     //To Do:
-    //- Implement methods in main
     //- Push to github again
     //- Try test cases
     //- If test cases don't pass, use boolean variables like (stringInputted = true) in running loop
@@ -14,15 +13,13 @@ public class RLE
     public static void main(String args[])
     {
         Scanner scan = new Scanner(System.in);
-        //think about what is returned from each method
-
         // Cycle:
         // 1. Menu
         // 2. User picks option
         // 3. Either enter message. View Decoded Message. Or View Encoded Message.
         // Repeat
-
         String inputString = "initialized yo";
+        String rleString = "initialized";
 
         boolean running = true;
         while (running) {
@@ -36,12 +33,15 @@ public class RLE
                 case 2:   //encode string and view
                     System.out.print("\nThe encoded data is: ");
                     char [][] encoded = encodeRLE(inputString);
+                    char [] encodedOneDim = toOneDim(encoded);
+                    rleString = new String(encodedOneDim);
                     printArray(encoded);
                     System.out.println();
                     break;
                 case 3:  //decode string and view. Could I just show the original string?
                     System.out.print("\nThe decoded data is: ");
-                    System.out.print(inputString); //REMOVE
+                    char [] decoded = decodeRLE(rleString);
+                    printOneDimArray(decoded);
                     System.out.println();
                     break;
                 case 4:   //exit program
@@ -53,6 +53,27 @@ public class RLE
             System.out.println();
 
         }
+    }
+
+    public static char[] toOneDim(char[][] array){
+        int length = 0;
+        for (int row = 0; row < array.length; row++) {
+            for (int col = 0; col < array[row].length; col++) {
+                length++;
+            }
+        }
+
+        char[] encodedOneDim = new char[length];  //initialize array with length (num of entries in two-dim array)
+
+        int position = 0;
+        for (int row = 0; row < array.length; row++) {
+            for (int col = 0; col < array[row].length; col++) {
+                encodedOneDim[position] = array[row][col];
+                position++;
+            }
+        }
+
+        return encodedOneDim;
     }
 
     public static void menu()
@@ -72,6 +93,12 @@ public class RLE
                 System.out.print(array[row][col]);
             }
         }
+    }
+
+    public static void printOneDimArray(char[] array){
+            for (int i = 0; i < array.length; i++) {
+                System.out.print(array[i]);
+            }
     }
 
     public static int numOfDigits(int num)
